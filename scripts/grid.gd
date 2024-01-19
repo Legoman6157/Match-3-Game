@@ -298,16 +298,14 @@ func refill_columns():
 
 				# Check if current space is below a locked piece
 				for k in range(j+1, height):
-					print(Vector2(i, k));
 					if is_in_array(locked_spaces, Vector2(i, k)):
-						print("Don't refill");
 						need_to_skip = true;
+						break;
 
+				# If this space is under a locked piece, don't refill it
 				if need_to_skip:
 					continue;
 
-				print(Vector2(i, j));
-				print("Refilling");
 				# Choose a random number and store it
 				var rand = floor(rand_range(0, possible_pieces.size()));
 				# Instance that piece from the array
