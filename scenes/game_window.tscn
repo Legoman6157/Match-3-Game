@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/grid.gd" type="Script" id=1]
+[ext_resource path="res://art/top_ui.png" type="Texture" id=2]
+[ext_resource path="res://art/background.png" type="Texture" id=3]
+[ext_resource path="res://art/bottom_ui.png" type="Texture" id=4]
+[ext_resource path="res://scenes/ice_holder.gd" type="Script" id=6]
+
+[node name="game_window" type="Node2D"]
+
+[node name="background" type="TextureRect" parent="."]
+margin_left = 2.0
+margin_right = 578.0
+margin_bottom = 1024.0
+texture = ExtResource( 3 )
+
+[node name="top_ui" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 2 )
+
+[node name="bottom_ui" type="TextureRect" parent="."]
+margin_top = 928.0
+margin_right = 576.0
+margin_bottom = 1024.0
+texture = ExtResource( 4 )
+
+[node name="grid" type="Node2D" parent="."]
+script = ExtResource( 1 )
+width = 8
+height = 10
+x_start = 64
+y_start = 832
+offset = 64
+y_offset = 2
+empty_spaces = PoolVector2Array( 0, 0, 7, 0, 0, 9, 7, 9, 3, 4, 3, 5, 4, 4, 4, 5 )
+ice_spaces = PoolVector2Array( 3, 0, 4, 0, 3, 9, 4, 9 )
+
+[node name="ice_holder" type="Node2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="destroy_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="collapse_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="refill_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="damage_ice" from="grid" to="ice_holder" method="_on_grid_damage_ice"]
+[connection signal="make_ice" from="grid" to="ice_holder" method="_on_grid_make_ice"]
+[connection signal="timeout" from="destroy_timer" to="grid" method="_on_destroy_timer_timeout"]
+[connection signal="timeout" from="collapse_timer" to="grid" method="_on_collapse_timer_timeout"]
+[connection signal="timeout" from="refill_timer" to="grid" method="_on_refill_timer_timeout"]
